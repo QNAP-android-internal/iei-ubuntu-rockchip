@@ -1,0 +1,4 @@
+GIT=https://github.com/QNAP-android-internal/kernel-rk.git
+COMMIT=eb8173d25d2496cdf2b47db5c71f3e56f75c5b8f
+BRANCH=iei-android-13.0.0_rkr6
+VERSION=giteb8173d2
