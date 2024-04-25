@@ -5,6 +5,8 @@ trap 'echo Error: in $0 on line $LINENO' ERR
 
 cd "$(dirname -- "$(readlink -f -- "$0")")"
 
+export TOPDIR=$(pwd)
+
 usage() {
 cat << HEREDOC
 Usage: $0 --board=[orangepi-5|orangepi-5b|orangepi-5-plus|rock-5b|rock-5a|radxa-cm5-io|nanopc-t6|nanopi-r6c|nanopi-r6s|indiedroid-nova|mixtile-blade3|mixtile-core3588e|lubancat-4|turing-rk1]
@@ -48,7 +50,7 @@ for i in "$@"; do
             shift
             ;;
         -d|--docker)
-            DOCKER="docker run --privileged --network=host --rm -it -v \"$(pwd)\":/opt -v \"$(pwd)\"/tools/prebuilts:/opt/tools/prebuilts -v \"$(pwd)\"/tools/rkbin:/opt/tools/rkbin -v \"$(pwd)\"/tools/RKTools:/opt/tools/RKTools -e BOARD -e VENDOR -e LAUNCHPAD -e MAINLINE -e SERVER_ONLY -e DESKTOP_ONLY -e KERNEL_ONLY -e UBOOT_ONLY ubuntu-rockchip-build /bin/bash"
+            DOCKER="docker run --privileged --network=host --rm -it -v \"$(pwd)\":/opt -v \"$(pwd)\"/tools/prebuilts:/opt/tools/prebuilts -v \"$(pwd)\"/tools/rkbin:/opt/tools/rkbin -v \"$(pwd)\"/tools/RKTools:/opt/tools/RKTools -e BOARD -e VENDOR -e LAUNCHPAD -e MAINLINE -e SERVER_ONLY -e DESKTOP_ONLY -e KERNEL_ONLY -e UBOOT_ONLY -e TOPDIR ubuntu-rockchip-build /bin/bash"
             docker build -t ubuntu-rockchip-build docker
             shift
             ;;

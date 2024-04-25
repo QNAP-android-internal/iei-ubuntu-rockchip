@@ -202,7 +202,7 @@ load ${devtype} ${devnum}:${distro_bootpart} ${ramdisk_addr_r} /initrd.img
 
 booti ${kernel_addr_r} ${ramdisk_addr_r}:${filesize} ${fdt_addr_r}
 EOF
-u-boot-${BOARD}/tools/mkimage -A arm64 -O linux -T script -C none -n "Boot Script" -d ${mount_point}/system-boot/boot.cmd ${mount_point}/system-boot/boot.scr
+${TOPDIR}/tools/rkbin/tools/mkimage -A arm64 -O linux -T script -C none -n "Boot Script" -d ${mount_point}/system-boot/boot.cmd ${mount_point}/system-boot/boot.scr
 
 # Uboot env
 cat > ${mount_point}/system-boot/ubuntuEnv.txt << EOF
