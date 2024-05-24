@@ -79,7 +79,7 @@ for type in $target; do
     mount -o bind /dev/pts ${chroot_dir}/dev/pts
 
     # Board specific changes
-    if [ "${BOARD}" == orangepi-5-plus ] || [ "${BOARD}" == iei-b675 ]; then
+    if [ "${BOARD}" == orangepi-5-plus ]; then
     {
         echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmi0-sound", ENV{SOUND_DESCRIPTION}="HDMI0 Audio"'
         echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmi1-sound", ENV{SOUND_DESCRIPTION}="HDMI1 Audio"'
@@ -210,6 +210,18 @@ for type in $target; do
     {
         echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmi0-sound", ENV{SOUND_DESCRIPTION}="HDMI0 Audio"'
     } > ${chroot_dir}/etc/udev/rules.d/90-naming-audios.rules
+    elif [ "${BOARD}" == iei-b675 ]; then
+    {
+        echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmi0-sound", ENV{SOUND_DESCRIPTION}="HDMI0 Audio"'
+        echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmi1-sound", ENV{SOUND_DESCRIPTION}="HDMI1 Audio"'
+        echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmiin-sound", ENV{SOUND_DESCRIPTION}="HDMI-In Audio"'
+        echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-dp0-sound", ENV{SOUND_DESCRIPTION}="DP0 Audio"'
+        echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-es8388-sound", ENV{SOUND_DESCRIPTION}="ES8388 Audio"'
+    } > ${chroot_dir}/etc/udev/rules.d/90-naming-audios.rules
+
+	# Install iptables and config iptables alternative
+        chroot ${chroot_dir} /bin/bash -c "apt-get -y install iptables"
+        chroot ${chroot_dir} /bin/bash -c "update-alternatives --set iptables /usr/sbin/iptables-legacy"
     fi
 
     if [[ ${type} == "desktop" ]]; then
