@@ -222,6 +222,14 @@ for type in $target; do
 	# Install iptables and config iptables alternative
         chroot ${chroot_dir} /bin/bash -c "apt-get -y install iptables"
         chroot ${chroot_dir} /bin/bash -c "update-alternatives --set iptables /usr/sbin/iptables-legacy"
+
+    # Copy firmeware for bcmdhd
+        mkdir -p ${chroot_dir}/etc/firmware
+        cp ${overlay_dir}/etc/firmware/fw_bcm43752a2_ag.bin ${chroot_dir}/etc/firmware/fw_bcm43752a2_ag.bin
+        cp ${overlay_dir}/etc/firmware/fw_bcm43752a2_ag_apsta.bin ${chroot_dir}/etc/firmware/fw_bcm43752a2_ag_apsta.bin
+        cp ${overlay_dir}/etc/firmware/clm_bcm43752a2_ag.blob ${chroot_dir}/etc/firmware/clm_bcm43752a2_ag.blob
+        cp ${overlay_dir}/etc/firmware/nvram_ap6275s.txt ${chroot_dir}/etc/firmware/nvram_ap6275s.txt
+        cp ${overlay_dir}/etc/firmware/config.txt ${chroot_dir}/etc/firmware/config.txt
     fi
 
     if [[ ${type} == "desktop" ]]; then
