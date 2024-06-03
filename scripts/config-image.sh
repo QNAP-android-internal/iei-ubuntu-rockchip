@@ -232,6 +232,14 @@ for type in $target; do
         cp ${overlay_dir}/etc/firmware/config.txt ${chroot_dir}/etc/firmware/config.txt
     fi
 
+    # Copy NPU inference demo
+    mkdir -p ${chroot_dir}/opt/npu_demo/inference_demo/
+    cp -rv ${overlay_dir}/opt/npu_demo/inference_demo/rknn_yolov5_demo ${chroot_dir}/opt/npu_demo/inference_demo/rknn_yolov5_demo
+    cp -rv ${overlay_dir}/opt/npu_demo/inference_demo/lib ${chroot_dir}/opt/npu_demo/inference_demo/lib
+    cp -rv ${overlay_dir}/opt/npu_demo/inference_demo/model ${chroot_dir}/opt/npu_demo/inference_demo/model
+    # Install opencv relate packages
+    chroot ${chroot_dir} /bin/bash -c "apt-get -y install libopencv-dev python3-opencv"
+
     if [[ ${type} == "desktop" ]]; then
         if [ "${BOARD}" == orangepi-5 ] || [ "${BOARD}" == orangepi-5b ] || [ "${BOARD}" == nanopi-r6c ] || [ "${BOARD}" == nanopi-r6s ] || [ "${BOARD}" == turing-rk1 ]; then
             echo "set-default-sink alsa_output.platform-hdmi0-sound.stereo-fallback" >> ${chroot_dir}/etc/pulse/default.pa
