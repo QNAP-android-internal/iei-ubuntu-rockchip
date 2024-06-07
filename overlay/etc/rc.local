@@ -14,4 +14,7 @@
 # Setting is_use_dummybuf default value after start up everytime
 echo 0 > /sys/class/video4linux/video0/device/is_use_dummybuf
 
+# Close "System program problem detected" dialog pop-up
+sed -i -r -e "s/enabled=1/enabled=0/g" /etc/default/apport
+
 exit 0
