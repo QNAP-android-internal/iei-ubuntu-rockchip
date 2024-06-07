@@ -230,7 +230,13 @@ for type in $target; do
         cp ${overlay_dir}/etc/firmware/clm_bcm43752a2_ag.blob ${chroot_dir}/etc/firmware/clm_bcm43752a2_ag.blob
         cp ${overlay_dir}/etc/firmware/nvram_ap6275s.txt ${chroot_dir}/etc/firmware/nvram_ap6275s.txt
         cp ${overlay_dir}/etc/firmware/config.txt ${chroot_dir}/etc/firmware/config.txt
-    fi
+
+    # Copy hotspot script
+        cp ${overlay_dir}/usr/bin/hotspot_script.sh ${chroot_dir}/usr/bin/hotspot_script.sh
+    # Install dialog for hotspot script
+        chroot ${chroot_dir} /bin/bash -c "apt-get -y install dialog"
+
+   fi
 
     # Copy NPU inference demo
     mkdir -p ${chroot_dir}/opt/npu_demo/inference_demo/
