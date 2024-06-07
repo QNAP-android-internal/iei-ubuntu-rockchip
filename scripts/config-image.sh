@@ -244,6 +244,7 @@ for type in $target; do
     cp -rv ${overlay_dir}/opt/npu_demo/inference_demo/lib ${chroot_dir}/opt/npu_demo/inference_demo/lib
     cp -rv ${overlay_dir}/opt/npu_demo/inference_demo/model ${chroot_dir}/opt/npu_demo/inference_demo/model
     # Install opencv relate packages
+    chroot ${chroot_dir} /bin/bash -c "apt-get -y update"
     chroot ${chroot_dir} /bin/bash -c "apt-get -y install libopencv-dev python3-opencv"
 
     if [[ ${type} == "desktop" ]]; then
