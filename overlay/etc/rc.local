@@ -11,4 +11,7 @@
 #
 # By default this script does nothing.
 
+# Setting is_use_dummybuf default value after start up everytime
+echo 0 > /sys/class/video4linux/video0/device/is_use_dummybuf
+
 exit 0
