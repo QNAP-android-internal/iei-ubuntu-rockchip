@@ -254,6 +254,11 @@ for type in $target; do
     chroot ${chroot_dir} /bin/bash -c "apt-get -y update"
     chroot ${chroot_dir} /bin/bash -c "apt-get -y install libopencv-dev python3-opencv"
 
+    # Copy rotate_display.desktop and rotate_display.sh for rotate panel display after start up
+    cp ${overlay_dir}/etc/xdg/autostart/rotate_display.desktop ${chroot_dir}/etc/xdg/autostart/rotate_display.desktop
+    cp ${overlay_dir}/usr/lib/scripts/rotate_display.sh  ${chroot_dir}/usr/lib/scripts/rotate_display.sh
+    # Modify rotate_display.sh permissions for transform_monitor.desktop can exec it
+    chroot ${chroot_dir} /bin/bash -c "chmod a+x /usr/lib/scripts/rotate_display.sh"
     if [[ ${type} == "desktop" ]]; then
         if [ "${BOARD}" == orangepi-5 ] || [ "${BOARD}" == orangepi-5b ] || [ "${BOARD}" == nanopi-r6c ] || [ "${BOARD}" == nanopi-r6s ] || [ "${BOARD}" == turing-rk1 ]; then
             echo "set-default-sink alsa_output.platform-hdmi0-sound.stereo-fallback" >> ${chroot_dir}/etc/pulse/default.pa
