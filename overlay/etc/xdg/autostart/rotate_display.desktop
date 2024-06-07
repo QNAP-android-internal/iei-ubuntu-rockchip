@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=transform_monitor
+Exec=/usr/lib/scripts/rotate_display.sh
+X-GNOME-Autostart-enabled=true
