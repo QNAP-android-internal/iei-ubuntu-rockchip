@@ -236,6 +236,13 @@ for type in $target; do
     # Install dialog for hotspot script
         chroot ${chroot_dir} /bin/bash -c "apt-get -y install dialog"
 
+    # Copy brcm for bt init
+        cp ${overlay_dir}/usr/bin/brcm_patchram_plus ${chroot_dir}/usr/bin/brcm_patchram_plus
+    # Install blueman for bt control
+        chroot ${chroot_dir} /bin/bash -c "apt-get -y install blueman"
+    # Copy bluetooth firmware
+        cp ${overlay_dir}/etc/firmware/BCM4362A2_001.003.006.1045.1053.hcd ${chroot_dir}/etc/firmware/BCM4362A2.hcd
+
    fi
 
     # Copy NPU inference demo
