@@ -17,4 +17,11 @@ echo 0 > /sys/class/video4linux/video0/device/is_use_dummybuf
 # Close "System program problem detected" dialog pop-up
 sed -i -r -e "s/enabled=1/enabled=0/g" /etc/default/apport
 
+amixer cset numid=37,iface=MIXER,name='Right Line Mux' 1 > /dev/null 2>&1
+amixer cset numid=36,iface=MIXER,name='Left Line Mux' 1 > /dev/null 2>&1
+amixer cset numid=39,iface=MIXER,name='Left Mixer Left Bypass Switch' on > /dev/null 2>&1
+amixer cset numid=41,iface=MIXER,name='Right Mixer Right Bypass Switch' on > /dev/null 2>&1
+amixer cset numid=22,iface=MIXER,name='Left Mixer Left Bypass Volume' 1 > /dev/null 2>&1
+amixer cset numid=23,iface=MIXER,name='Right Mixer Right Bypass Volume' 5 > /dev/null 2>&1
+
 exit 0
