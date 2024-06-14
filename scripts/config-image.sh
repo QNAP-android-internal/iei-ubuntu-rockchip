@@ -259,6 +259,9 @@ for type in $target; do
     cp ${overlay_dir}/usr/lib/scripts/rotate_display.sh  ${chroot_dir}/usr/lib/scripts/rotate_display.sh
     # Modify rotate_display.sh permissions for transform_monitor.desktop can exec it
     chroot ${chroot_dir} /bin/bash -c "chmod a+x /usr/lib/scripts/rotate_display.sh"
+
+    # Copy gnome_setting.sh for close Dim Screen and Screen Blank
+    cp ${overlay_dir}/etc/profile.d/gnome_setting.sh ${chroot_dir}/etc/profile.d/gnome_setting.sh
     if [[ ${type} == "desktop" ]]; then
         if [ "${BOARD}" == orangepi-5 ] || [ "${BOARD}" == orangepi-5b ] || [ "${BOARD}" == nanopi-r6c ] || [ "${BOARD}" == nanopi-r6s ] || [ "${BOARD}" == turing-rk1 ]; then
             echo "set-default-sink alsa_output.platform-hdmi0-sound.stereo-fallback" >> ${chroot_dir}/etc/pulse/default.pa
