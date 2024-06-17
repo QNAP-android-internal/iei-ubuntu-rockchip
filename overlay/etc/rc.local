@@ -24,4 +24,10 @@ amixer cset numid=41,iface=MIXER,name='Right Mixer Right Bypass Switch' on > /de
 amixer cset numid=22,iface=MIXER,name='Left Mixer Left Bypass Volume' 1 > /dev/null 2>&1
 amixer cset numid=23,iface=MIXER,name='Right Mixer Right Bypass Volume' 5 > /dev/null 2>&1
 
+# Initialize bluetooth
+bt_firmware_path=/etc/firmware/BCM4362A2.hcd
+bt_baudrate=3000000
+
+brcm_patchram_plus --enable_hci --no2bytes --use_baudrate_for_download --tosleep 200000 --baudrate $bt_baudrate --patchram $bt_firmware_path /dev/ttyS9 &
+
 exit 0
