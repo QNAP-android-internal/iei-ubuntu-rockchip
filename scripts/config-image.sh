@@ -219,6 +219,11 @@ for type in $target; do
         echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-es8388-sound", ENV{SOUND_DESCRIPTION}="ES8388 Audio"'
     } > ${chroot_dir}/etc/udev/rules.d/90-naming-audios.rules
 
+    # Copy customization rc.local setting
+        cp ${overlay_dir}/etc/rc.local ${chroot_dir}/etc/rc.local
+    # Copy servie for rc.local
+        cp ${overlay_dir}/etc/systemd/system/rc-local.service ${chroot_dir}/etc/systemd/system/rc-local.service
+
 	# Install iptables and config iptables alternative
         chroot ${chroot_dir} /bin/bash -c "apt-get -y install iptables"
         chroot ${chroot_dir} /bin/bash -c "update-alternatives --set iptables /usr/sbin/iptables-legacy"
