@@ -1,0 +1,10 @@
+[Unit]
+Description=rc.local service
+ConditionPathExists=/etc/rc.local
+
+[Service]
+Type=forking
+ExecStart=/etc/rc.local start
+
+[Install]
+WantedBy=multi-user.target
