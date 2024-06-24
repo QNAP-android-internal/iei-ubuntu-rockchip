@@ -1,0 +1,160 @@
+[
+  {
+    "names": "RTC",
+    "exec": "/qc/rtc_qc.sh",
+    "statusFile": "/tmp/rtc_qc.txt",
+    "auto": "true",
+    "burnin": "false",
+    "teston": "true"
+  },
+  {
+    "names": "EMMC",
+    "exec": "/qc/emmc_qc.sh",
+    "statusFile": "/tmp/emmc_qc.txt",
+    "auto": "true",
+    "burnin": "false",
+    "teston": "true"
+  },
+  {
+    "names": "ETH0",
+    "exec": "/qc/eth_qc.sh eth0",
+    "statusFile": "/tmp/eth_qc_eth0.txt",
+    "auto": "true",
+    "burnin": "true",
+    "burnin_exec": "/qc/burnin/eth_burnin.sh eth0",
+    "teston": "true"
+  },
+  {
+    "names": "ETH1",
+    "exec": "/qc/eth_qc.sh enP4p65s0",
+    "statusFile": "/tmp/eth_qc_enP4p65s0.txt",
+    "auto": "true",
+    "burnin": "true",
+    "burnin_exec": "/qc/burnin/eth_burnin.sh enP4p65s0",
+    "teston": "true"
+  },
+  {
+    "names": "USB",
+    "exec": "/qc/usb_qc.sh",
+    "statusFile": "/tmp/usb_qc.txt",
+    "auto": "true",
+    "burnin": "true",
+    "burnin_exec": "/qc/burnin/usb_burnin.sh",
+    "teston": "true"
+  },
+  {
+    "names": "MEM",
+    "exec": "/qc/mem_qc.sh 2000",
+    "statusFile": "/tmp/mem_qc.txt",
+    "auto": "true",
+    "burnin": "false",
+    "teston": "true"
+  },
+  {
+    "names": "M2_WIFI",
+    "exec": "/qc/m2_wifi_qc.sh",
+    "statusFile": "/tmp/m2_wifi_qc.txt",
+    "auto": "true",
+    "burnin": "false",
+    "teston": "true"
+  },
+  {
+    "names": "BT",
+    "exec": "/qc/bt_qc.sh",
+    "statusFile": "/tmp/bt_qc.txt",
+    "auto": "true",
+    "burnin": "true",
+    "burnin_exec": "/qc/burnin/bt_burnin.sh",
+    "teston": "true"
+  },
+  {
+    "names": "UART_ttyS5",
+    "exec": "/qc/uart_qc.sh ttyS5",
+    "statusFile": "/tmp/uart_qc_ttyS5.txt",
+    "auto": "true",
+    "burnin": "true",
+    "burnin_exec": "/qc/burnin/uart_burnin.sh ttyS5",
+    "teston": "true"
+  },
+  {
+    "names": "UART_ttyS6",
+    "exec": "/qc/uart_qc.sh ttyS6",
+    "statusFile": "/tmp/uart_qc_ttyS6.txt",
+    "auto": "true",
+    "burnin": "true",
+    "burnin_exec": "/qc/burnin/uart_burnin.sh ttyS6",
+    "teston": "true"
+  },
+  {
+    "names": "WIFI",
+    "exec": "/qc/wifi_qc.sh",
+    "statusFile": "/tmp/wifi_qc.txt",
+    "auto": "true",
+    "burnin": "true",
+    "burnin_exec": "/qc/burnin/wifi_burnin.sh",
+    "teston": "true"
+  },
+  {
+    "names": "OTG",
+    "exec": "/qc/otg_qc.sh",
+    "statusFile": "/tmp/otg_qc.txt",
+    "auto": "true",
+    "burnin": "false",
+    "teston": "true"
+  },
+  {
+    "names": "CAMERA",
+    "exec": "/qc/camera_qc.sh /dev/video0",
+    "statusFile": "/tmp/camera_qc.txt",
+    "auto": "false",
+    "burnin": "true",
+    "burnin_exec": "/qc/burnin/camera_burnin.sh /dev/video0",
+    "teston": "true"
+  },
+  {
+    "names": "VIDEO",
+    "exec": "/qc/video_qc.sh",
+    "statusFile": "/tmp/video_qc.txt",
+    "auto": "false",
+    "burnin": "true",
+    "burnin_exec": "/qc/burnin/video_burnin.sh",
+    "teston": "true"
+  },
+  {
+    "names": "HDMI1",
+    "exec": "/qc/hdmi1_qc.sh",
+    "statusFile": "/tmp/hdmi1_qc.txt",
+    "auto": "true",
+    "burnin": "false",
+    "teston": "true"
+  },
+  {
+    "names": "HDMI2",
+    "exec": "/qc/hdmi2_qc.sh",
+    "statusFile": "/tmp/hdmi2_qc.txt",
+    "auto": "true",
+    "burnin": "false",
+    "teston": "true"
+  },
+  {
+    "names": "CPU",
+    "exec": "/qc/cpu_qc.sh",
+    "statusFile": "/tmp/cpu_qc.txt",
+    "auto": "true",
+    "burnin": "true",
+    "burnin_exec": "/qc/burnin/cpu_burnin.sh",
+    "teston": "true"
+  },
+  {
+    "names": "GPU",
+    "exec": "/qc/gpu_qc.sh 150",
+    "statusFile": "/tmp/gpu_qc.txt",
+    "auto": "true",
+    "burnin": "true",
+    "burnin_exec": "/qc/burnin/gpu_burnin.sh",
+    "teston": "true"
+  },
+  {
+    "names": "END"
+  }
+]
