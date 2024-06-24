@@ -274,6 +274,12 @@ for type in $target; do
     # Install gnome-shell-extensions for soft-brightness@fifi.org control
     chroot ${chroot_dir} /bin/bash -c "apt-get -y install gnome-shell-extensions"
 
+    # Copy peripheral devices test tools
+    mkdir -p ${chroot_dir}/qc/
+    cp -rv ${overlay_dir}/qc/* ${chroot_dir}/qc/
+    # Install packages for peripheral devices test
+    chroot ${chroot_dir} /bin/bash -c "apt-get -y install iperf stress-ng memtester glmark2 jq minicom gnome-sound-recorder"
+
     if [[ ${type} == "desktop" ]]; then
         if [ "${BOARD}" == orangepi-5 ] || [ "${BOARD}" == orangepi-5b ] || [ "${BOARD}" == nanopi-r6c ] || [ "${BOARD}" == nanopi-r6s ] || [ "${BOARD}" == turing-rk1 ]; then
             echo "set-default-sink alsa_output.platform-hdmi0-sound.stereo-fallback" >> ${chroot_dir}/etc/pulse/default.pa
