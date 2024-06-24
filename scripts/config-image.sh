@@ -280,6 +280,10 @@ for type in $target; do
     # Install packages for peripheral devices test
     chroot ${chroot_dir} /bin/bash -c "apt-get -y install iperf stress-ng memtester glmark2 jq minicom gnome-sound-recorder"
 
+    # intsall module_alsa_source.pa for load PulseAudio module
+    mkdir -p ${chroot_dir}/etc/pulse/default.pa.d/
+    cp -rv ${overlay_dir}/etc/pulse/default.pa.d/module_alsa_source.pa ${chroot_dir}/etc/pulse/default.pa.d/module_alsa_source.pa
+
     if [[ ${type} == "desktop" ]]; then
         if [ "${BOARD}" == orangepi-5 ] || [ "${BOARD}" == orangepi-5b ] || [ "${BOARD}" == nanopi-r6c ] || [ "${BOARD}" == nanopi-r6s ] || [ "${BOARD}" == turing-rk1 ]; then
             echo "set-default-sink alsa_output.platform-hdmi0-sound.stereo-fallback" >> ${chroot_dir}/etc/pulse/default.pa
