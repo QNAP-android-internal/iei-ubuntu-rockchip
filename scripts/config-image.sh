@@ -265,8 +265,15 @@ for type in $target; do
     # Modify rotate_display.sh permissions for transform_monitor.desktop can exec it
     chroot ${chroot_dir} /bin/bash -c "chmod a+x /usr/lib/scripts/rotate_display.sh"
 
-    # Copy gnome_setting.sh for close Dim Screen and Screen Blank
+    # Copy gnome_setting.sh for exec gsettings after startup
     cp ${overlay_dir}/etc/profile.d/gnome_setting.sh ${chroot_dir}/etc/profile.d/gnome_setting.sh
+
+    # Copy soft-brightness@fifi.org for control multi display backlight
+    mkdir -p ${chroot_dir}/usr/share/gnome-shell/extensions/soft-brightness@fifi.org/
+    cp -rv ${overlay_dir}/usr/share/gnome-shell/extensions/soft-brightness@fifi.org/* ${chroot_dir}/usr/share/gnome-shell/extensions/soft-brightness@fifi.org/
+    # Install gnome-shell-extensions for soft-brightness@fifi.org control
+    chroot ${chroot_dir} /bin/bash -c "apt-get -y install gnome-shell-extensions"
+
     if [[ ${type} == "desktop" ]]; then
         if [ "${BOARD}" == orangepi-5 ] || [ "${BOARD}" == orangepi-5b ] || [ "${BOARD}" == nanopi-r6c ] || [ "${BOARD}" == nanopi-r6s ] || [ "${BOARD}" == turing-rk1 ]; then
             echo "set-default-sink alsa_output.platform-hdmi0-sound.stereo-fallback" >> ${chroot_dir}/etc/pulse/default.pa
