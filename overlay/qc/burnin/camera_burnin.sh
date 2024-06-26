@@ -6,4 +6,4 @@ else
 	echo "fail" > /tmp/camera_qc.txt
 fi
 
-gst-launch-1.0 -e v4l2src device=/dev/video0 ! autovideosink sync=false
+gst-launch-1.0 v4l2src device=/dev/video0 ! video/x-raw,format=NV16,width=480,height=360 ! glimagesink sync=false
