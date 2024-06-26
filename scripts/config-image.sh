@@ -278,7 +278,7 @@ for type in $target; do
     mkdir -p ${chroot_dir}/qc/
     cp -rv ${overlay_dir}/qc/* ${chroot_dir}/qc/
     # Install packages for peripheral devices test
-    chroot ${chroot_dir} /bin/bash -c "apt-get -y install iperf stress-ng memtester glmark2 jq minicom gnome-sound-recorder"
+    chroot ${chroot_dir} /bin/bash -c "apt-get -y install iperf stress-ng memtester glmark2 jq minicom gnome-sound-recorder xinput-calibrator"
 
     # intsall module_alsa_source.pa for load PulseAudio module
     mkdir -p ${chroot_dir}/etc/pulse/default.pa.d/
