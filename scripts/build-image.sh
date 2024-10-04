@@ -206,7 +206,7 @@ ${TOPDIR}/tools/rkbin/tools/mkimage -A arm64 -O linux -T script -C none -n "Boot
 
 # Uboot env
 cat > ${mount_point}/system-boot/ubuntuEnv.txt << EOF
-bootargs=root=UUID=${root_uuid} rootfstype=ext4 rootwait rw console=ttyS2,1500000 console=tty1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory swapaccount=1 systemd.unified_cgroup_hierarchy=0 ${bootargs}
+bootargs=root=UUID=${root_uuid} rootfstype=ext4 rootwait rw console=ttyS2,1500000 console=tty1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory swapaccount=1 systemd.unified_cgroup_hierarchy=0 firmware_class.path=/etc/firmware/ ${bootargs}
 fdtfile=${DEVICE_TREE}
 overlay_prefix=${OVERLAY_PREFIX}
 overlays=
