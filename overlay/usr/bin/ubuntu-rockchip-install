@@ -160,7 +160,6 @@ rsync -xavrltD --delete / ${mount_point}/writable/ >/dev/null 2>&1
 
 # Update root uuid for kernel cmdline
 sed -i "s/^\(\s*bootargs=\s*\)root=UUID=[A-Fa-f0-9-]*/\1root=UUID=${root_uuid}/" ${mount_point}/system-boot/ubuntuEnv.txt
-sed -i '1s/$/ firmware_class.path=\/etc\/firmware/' ${mount_point}/system-boot/ubuntuEnv.txt
 
 # Update fstab entries
 boot_uuid="${boot_uuid:0:4}-${boot_uuid:4:4}"
