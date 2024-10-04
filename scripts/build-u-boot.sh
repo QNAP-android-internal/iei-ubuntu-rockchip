@@ -8,6 +8,8 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+TOPDIR=$(pwd)
+
 cd "$(dirname -- "$(readlink -f -- "$0")")" && cd ..
 mkdir -p build && cd build
 
@@ -23,6 +25,11 @@ if [ ! -d "${UBOOT_PACKAGE}" ]; then
     git -C "${UBOOT_PACKAGE}" checkout "${COMMIT}"
     cp -r ../packages/"${UBOOT_PACKAGE}"/debian "${UBOOT_PACKAGE}"
 fi
+
+export CROSS_COMPILE=${TOPDIR}/tools/prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-
+ln -sf ${TOPDIR}/tools/rkbin ${TOPDIR}/build/${UBOOT_PACKAGE}/rkbin
+ln -sf ${TOPDIR}/tools/prebuilts ${TOPDIR}/build/${UBOOT_PACKAGE}/prebuilts
+
 cd "${UBOOT_PACKAGE}"
 
 # Target package to build
