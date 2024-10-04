@@ -1,0 +1,14 @@
+Source: u-boot-iei-b675-rk3588
+Section: admin
+Priority: optional
+Maintainer: LC Wang <lcwang@ieiworld.com>
+
+Package: u-boot-iei-b675-rk3588
+Architecture: arm64
+Priority: optional
+Description: A boot loader for the iEi B675
+ Das U-Boot is a cross-platform bootloader for embedded systems,
+ used as the default boot loader by several board vendors.  It is
+ intended to be easy to port and to debug, and runs on many
+ supported architectures, including PPC, ARM, MIPS, x86, m68k,
+ NIOS, and Microblaze.

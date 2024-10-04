@@ -1,0 +1,5 @@
+u-boot-iei-b675-rk3588 (2017.09+20230920.git609a77ef-3) noble; urgency=medium
+
+  * iEi B675 first ubuntu release
+
+ -- LC Wang <lcwang@ieiworld.com>  Tue, 1 Oct 2024 17:52:34 -0400

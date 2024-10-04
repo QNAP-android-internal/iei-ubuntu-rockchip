@@ -1,0 +1,4 @@
+GIT=https://github.com/QNAP-android-internal/uboot-rk.git
+COMMIT=3046e110b3284b00cdbf19707dcfc562a77ed10f
+BRANCH=iei-android-14.0.0_rkr4
+VERSION=2017.09+20240419.git522c7a
