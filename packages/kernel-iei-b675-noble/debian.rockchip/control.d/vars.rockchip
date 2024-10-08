@@ -1,0 +1,6 @@
+arch="arm64"
+supported="ROCKCHIP"
+target="Geared toward Rockchip hardware."
+desc="=HUMAN= SMP"
+bootloader="u-boot-menu"
+provides="kvm-api-4, redhat-cluster-modules, ivtv-modules"
