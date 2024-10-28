@@ -31,6 +31,10 @@ if [[ -f ubuntu-${RELASE_VERSION}-preinstalled-${FLAVOR}-arm64.rootfs.tar.xz ]];
     exit 0
 fi
 
+if [[ "${SUITE}" == iei-b675-noble  ]]; then
+       SUITE=noble
+fi
+
 pushd .
 
 tmp_dir=$(mktemp -d)
