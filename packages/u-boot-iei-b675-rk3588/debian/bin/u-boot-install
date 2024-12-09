@@ -20,7 +20,7 @@ else
     echo "Writing idbloader"
     sudo dd if=/usr/lib/u-boot/idbloader.img of="${disk}" seek=64 conv=notrunc
     echo "Writing u-boot image"
-    sudo dd if=/usr/lib/u-boot/u-boot.itb of="${disk}" seek=16384 conv=notrunc
+    sudo dd if=/usr/lib/u-boot/uboot.img of="${disk}" seek=16384 conv=notrunc
 fi
 
 sudo sync "${disk}"
