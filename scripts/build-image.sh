@@ -260,6 +260,9 @@ overlay_prefix=${OVERLAY_PREFIX}
 overlays=
 EOF
 
+# Disable sudo with password
+sed -i "s/sudo\tALL=(ALL:ALL) ALL/sudo\tALL=(ALL:ALL) NOPASSWD:ALL/" ${mount_point}/writable/etc/sudoers
+
 # Write bootloader to disk image
 if [ -f "${mount_point}/writable/usr/lib/u-boot/u-boot-rockchip.bin" ]; then
     dd if="${mount_point}/writable/usr/lib/u-boot/u-boot-rockchip.bin" of="${loop}" seek=1 bs=32k conv=fsync
