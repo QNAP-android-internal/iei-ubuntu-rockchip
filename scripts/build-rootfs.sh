@@ -141,7 +141,7 @@ else
 fi
 
 # Build the rootfs
-lb build
+lb build | tee /tmp/build.log
 
 set -eE 
 
