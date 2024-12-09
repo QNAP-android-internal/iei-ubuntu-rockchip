@@ -157,6 +157,18 @@ else
     chroot ${chroot_dir} apt-mark hold "$(echo "${linux_rockchip_headers_package}" | sed -rn 's/(.*)_[[:digit:]].*/\1/p')"
 fi
 
+    # Copy kernel and initrd for the boot partition
+    mkdir -p ${chroot_dir}/boot/firmware/
+    cp ${chroot_dir}/boot/initrd.img-* ${chroot_dir}/boot/firmware/initrd.img
+    cp ${chroot_dir}/boot/vmlinuz-* ${chroot_dir}/boot/firmware/vmlinuz
+
+    # Copy device trees and overlays for the boot partition
+    mkdir -p ${chroot_dir}/boot/firmware/dtbs/
+    cp -r ${chroot_dir}/usr/lib/firmware/*-rockchip/device-tree/rockchip/* ${chroot_dir}/boot/firmware/dtbs/
+    if [ -d "${chroot_dir}/boot/firmware/dtbs/overlay/" ]; then
+        mv ${chroot_dir}/boot/firmware/dtbs/overlay/ ${chroot_dir}/boot/firmware/dtbs/overlays/
+    fi
+
 # Update the initramfs
 chroot ${chroot_dir} update-initramfs -u
 
