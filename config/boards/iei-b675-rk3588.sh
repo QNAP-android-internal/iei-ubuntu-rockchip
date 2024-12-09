@@ -9,7 +9,7 @@ export UBOOT_RULES_TARGET="iei-b675-rk3588"
 export COMPATIBLE_SUITES=("jammy" "noble")
 export COMPATIBLE_FLAVORS=("server" "desktop")
 
-function config_image_hook__iei-3588() {
+function config_image_hook__iei-b675-rk3588() {
     local rootfs="$1"
     local suite="$3"
 
