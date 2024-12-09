@@ -19,35 +19,13 @@ include debian/targets.mk
 ${u-boot-rockchip_platforms}:
 	@mkdir -p debian/build/$@
 
-	make O=debian/build/$@ \
-	  CROSS_COMPILE=$(CROSS_COMPILE) \
-	  ARCH=arm \
-	  $(NJOBS) \
-	  rk3588_b675_defconfig
+	@./make.sh rk3588_b675 CROSS_COMPILE=${CROSS_COMPILE}
+	@./make.sh itb CROSS_COMPILE=$(CROSS_COMPILE)
+	tools/mkimage -n rk3588 -T rksd -d spl/u-boot-spl.bin idbloader.img
 
-	@touch .scmversion
-	@sed -i 's/CONFIG_BOOTDELAY=.*/CONFIG_BOOTDELAY=2/g' debian/build/$@/.config
-	@sed -i 's/CONFIG_DISABLE_CONSOLE=y/CONFIG_DISABLE_CONSOLE=n/g' debian/build/$@/.config
-	@sed -i 's/CONFIG_LOCALVERSION=""/CONFIG_LOCALVERSION=""/g' debian/build/$@/.config
-
-	@mkdir -p debian/build/$@/arch/arm/mach-rockchip
-	@cp arch/arm/mach-rockchip/decode_bl31.py debian/build/$@/arch/arm/mach-rockchip/decode_bl31.py
-
-	@cp debian/rkbin/$($@_bl31) debian/build/$@/bl31.elf
-	@cp debian/rkbin/$($@_bl32) debian/build/$@/tee.bin
-
-	make O=debian/build/$@ \
-	  CROSS_COMPILE=$(CROSS_COMPILE) \
-	  SOURCE_DATE_EPOCH=$(shell date +%s) \
-	  ARCH=arm \
-	  $(NJOBS) \
-	  BL31=../../../debian/rkbin/$($@_bl31) \
-	  BL32=../../../debian/rkbin/$($@_bl32) \
-	  spl/u-boot-spl.bin u-boot.dtb u-boot.itb
-
-	./debian/build/$@/tools/mkimage -n rk3588 -T rksd -d \
-	  debian/rkbin/$($@_ddr):debian/build/$@/spl/u-boot-spl.bin \
-	  debian/build/$@/idbloader.img
+	@cp uboot.img debian/build/$@/
+	@cp idbloader.img debian/build/$@/
+	@cp u-boot.itb debian/build/$@/
 
 	@dd if=/dev/zero of=debian/build/$@/rkspi_loader.img bs=1M count=0 seek=16
 	@parted -s debian/build/$@/rkspi_loader.img mklabel gpt
@@ -59,7 +37,7 @@ ${u-boot-rockchip_platforms}:
 	@parted -s debian/build/$@/rkspi_loader.img unit s mkpart reserved2 8192 16383
 	@parted -s debian/build/$@/rkspi_loader.img unit s mkpart uboot 16384 32734
 	@dd if=debian/build/$@/idbloader.img of=debian/build/$@/rkspi_loader.img seek=64 conv=notrunc
-	@dd if=debian/build/$@/u-boot.itb of=debian/build/$@/rkspi_loader.img seek=16384 conv=notrunc
+	@dd if=debian/build/$@/uboot.img of=debian/build/$@/rkspi_loader.img seek=16384 conv=notrunc
 
 build: ${u-boot-rockchip_platforms}
 
@@ -73,6 +51,7 @@ package-%:
 	@mkdir -m 755 -p debian/tmp/u-boot/usr/bin/
 
 	@cp debian/build/$(subst package-,,$@)/u-boot.itb debian/tmp/u-boot/usr/lib/u-boot/u-boot.itb
+	@cp debian/build/$(subst package-,,$@)/uboot.img debian/tmp/u-boot/usr/lib/u-boot/uboot.img
 	@cp debian/build/$(subst package-,,$@)/idbloader.img debian/tmp/u-boot/usr/lib/u-boot/idbloader.img
 	@cp debian/build/$(subst package-,,$@)/rkspi_loader.img debian/tmp/u-boot/usr/lib/u-boot/rkspi_loader.img
 	@if [ "rock-5a-rk3588s" = "$(subst package-,,$@)" ]; then \
