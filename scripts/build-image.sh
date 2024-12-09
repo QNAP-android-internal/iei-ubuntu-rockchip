@@ -57,6 +57,8 @@ if [[ -z ${BOARD} ]]; then
 fi
 
 TOPDIR=$(pwd)
+DEVICE_TREE=rk3588-b675.dtb
+OVERLAY_PREFIX=iei-b675
 
 # Create an empty disk image
 img="../images/$(basename "${rootfs}" .rootfs.tar)${KVER}.img"
@@ -249,6 +251,14 @@ EOF
 
 cp -r ${TOPDIR}/../tools/ ${TOPDIR}/
 ${TOPDIR}/tools/rkbin/tools/mkimage -A arm64 -O linux -T script -C none -n "Boot Script" -d ${mount_point}/system-boot/boot.cmd ${mount_point}/system-boot/boot.scr
+
+# Uboot env
+cat > ${mount_point}/system-boot/ubuntuEnv.txt << EOF
+bootargs=root=UUID=${root_uuid} rootfstype=ext4 rootwait rw console=ttyS2,1500000 console=tty1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory swapaccount=1 systemd.unified_cgroup_hierarchy=0 firmware_class.path=/etc/firmware/ ${bootargs}
+fdtfile=${DEVICE_TREE}
+overlay_prefix=${OVERLAY_PREFIX}
+overlays=
+EOF
 
 # Write bootloader to disk image
 if [ -f "${mount_point}/writable/usr/lib/u-boot/u-boot-rockchip.bin" ]; then
