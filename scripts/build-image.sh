@@ -193,8 +193,14 @@ fi
 tar -xpf "${rootfs}" -C ${mount_point}/writable
 
 # Create fstab entries
-echo "# <file system>     <mount point>  <type>  <options>   <dump>  <fsck>" > ${mount_point}/writable/etc/fstab
-echo "UUID=${root_uuid,,} /              ext4    defaults,x-systemd.growfs    0       1" >> ${mount_point}/writable/etc/fstab
+boot_uuid="${boot_uuid:0:4}-${boot_uuid:4:4}"
+mkdir -p ${mount_point}/writable/boot/firmware
+cat > ${mount_point}/writable/etc/fstab << EOF
+# <file system>     <mount point>  <type>  <options>   <dump>  <fsck>
+UUID=${boot_uuid^^} /boot/firmware vfat    defaults    0       2
+UUID=${root_uuid,,} /              ext4    defaults    0       1
+/swapfile           none           swap    sw          0       0
+EOF
 
 # Write bootloader to disk image
 if [ -f "${mount_point}/writable/usr/lib/u-boot/u-boot-rockchip.bin" ]; then
