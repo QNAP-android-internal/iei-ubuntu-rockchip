@@ -27,8 +27,8 @@ if [ ! -d "${UBOOT_PACKAGE}" ]; then
 fi
 
 export CROSS_COMPILE=${TOPDIR}/tools/prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-
-ln -sf ${TOPDIR}/tools/rkbin ${TOPDIR}/build/${UBOOT_PACKAGE}/rkbin
-ln -sf ${TOPDIR}/tools/prebuilts ${TOPDIR}/build/${UBOOT_PACKAGE}/prebuilts
+ln -sf ${TOPDIR}/tools/rkbin ${TOPDIR}/build/rkbin
+ln -sf ${TOPDIR}/tools/prebuilts ${TOPDIR}/build/prebuilts
 
 cd "${UBOOT_PACKAGE}"
 
