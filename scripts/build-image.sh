@@ -137,19 +137,31 @@ else
     dd if=/dev/zero of="${disk}" count=4096 bs=512
     parted --script "${disk}" \
     mklabel gpt \
-    mkpart primary ext4 16MiB 100%
+    mkpart primary fat16 16MiB 528MiB \
+    mkpart primary ext4 528MiB 100%
 
     # Create partitions
     {
         echo "t"
         echo "1"
         echo "C12A7328-F81F-11D2-BA4B-00A0C93EC93B"
+        echo "BC13C2FF-59E6-4262-A352-B275FD6F7172"
+        echo "t"
+        echo "2"
+        echo "0FC63DAF-8483-4772-8E79-3D69D8477DE4"
         echo "w"
     } | fdisk "${disk}" &> /dev/null || true
 
     partprobe "${disk}"
 
     partition_char="$(if [[ ${disk: -1} == [0-9] ]]; then echo p; fi)"
+
+    sleep 1
+
+    wait_loopdev "${disk}${partition_char}2" 60 || {
+        echo "Failure to create ${disk}${partition_char}2 in time"
+        exit 1
+    }
 
     sleep 1
 
@@ -160,16 +172,21 @@ else
 
     sleep 1
 
+    # Generate random uuid for bootfs
+    boot_uuid=$(uuidgen | head -c8)
+
     # Generate random uuid for rootfs
     root_uuid=$(uuidgen)
 
     # Create filesystems on partitions
-    dd if=/dev/zero of="${disk}${partition_char}1" bs=1KB count=10 > /dev/null
-    mkfs.ext4 -U "${root_uuid}" -L desktop-rootfs "${disk}${partition_char}1"
+    mkfs.vfat -i "${boot_uuid}" -F32 -n system-boot "${disk}${partition_char}1"
+    dd if=/dev/zero of="${disk}${partition_char}2" bs=1KB count=10 > /dev/null
+    mkfs.ext4 -U "${root_uuid}" -L writable "${disk}${partition_char}2"
 
     # Mount partitions
-    mkdir -p ${mount_point}/writable
-    mount "${disk}${partition_char}1" ${mount_point}/writable
+    mkdir -p ${mount_point}/{system-boot,writable}
+    mount "${disk}${partition_char}1" ${mount_point}/system-boot
+    mount "${disk}${partition_char}2" ${mount_point}/writable
 fi
 
 # Copy the rootfs to root partition
