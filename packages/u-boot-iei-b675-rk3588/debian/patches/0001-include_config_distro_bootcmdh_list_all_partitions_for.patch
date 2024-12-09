@@ -1,0 +1,23 @@
+From a93773c0dad4d0def30fbbe3bc9578cda0360837 Mon Sep 17 00:00:00 2001
+From: cmwang <cmwang@ieiworld.com>
+Date: Tue, 16 Apr 2024 10:10:17 +0800
+Subject: [PATCH] include: config_distro_bootcmd.h: list all partitions for
+ ubuntu boot script
+
+---
+ include/config_distro_bootcmd.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/config_distro_bootcmd.h b/include/config_distro_bootcmd.h
+index 9ed6b9892cd..014b6c3da4a 100644
+--- a/include/config_distro_bootcmd.h
++++ b/include/config_distro_bootcmd.h
+@@ -368,7 +368,7 @@
+ 		"\0"                                                      \
+ 	\
+ 	"scan_dev_for_boot_part="                                         \
+-		"part list ${devtype} ${devnum} -bootable devplist; "     \
++		"part list ${devtype} ${devnum} devplist; "     \
+ 		"env exists devplist || setenv devplist 1; "              \
+ 		"for distro_bootpart in ${devplist}; do "                 \
+ 			"if fstype ${devtype} "                           \
