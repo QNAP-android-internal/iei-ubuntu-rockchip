@@ -56,6 +56,8 @@ if [[ -z ${BOARD} ]]; then
     exit 1
 fi
 
+TOPDIR=$(pwd)
+
 # Create an empty disk image
 img="../images/$(basename "${rootfs}" .rootfs.tar)${KVER}.img"
 size="$(( $(wc -c < "${rootfs}" ) / 1024 / 1024 ))"
@@ -201,6 +203,52 @@ UUID=${boot_uuid^^} /boot/firmware vfat    defaults    0       2
 UUID=${root_uuid,,} /              ext4    defaults    0       1
 /swapfile           none           swap    sw          0       0
 EOF
+
+# Uboot script
+cat > ${mount_point}/system-boot/boot.cmd << 'EOF'
+# This is a boot script for U-Boot
+#
+# Recompile with:
+# mkimage -A arm64 -O linux -T script -C none -n "Boot Script" -d boot.cmd boot.scr
+
+setenv load_addr ${scriptaddr}
+setenv overlay_error "false"
+
+echo "Boot script loaded from ${devtype} ${devnum}"
+
+if test -e ${devtype} ${devnum}:${distro_bootpart} /ubuntuEnv.txt; then
+    load ${devtype} ${devnum}:${distro_bootpart} ${load_addr} /ubuntuEnv.txt
+    env import -t ${load_addr} ${filesize}
+fi
+
+load ${devtype} ${devnum}:${distro_bootpart} ${fdt_addr_r} /dtbs/${fdtfile}
+fdt addr ${fdt_addr_r} && fdt resize 0x10000
+
+for overlay_file in ${overlays}; do
+    if load ${devtype} ${devnum}:${distro_bootpart} ${fdtoverlay_addr_r} /dtbs/overlays/${overlay_prefix}-${overlay_file}.dtbo; then
+        echo "Applying device tree overlay: /dtbs/overlays/${overlay_prefix}-${overlay_file}.dtbo"
+        fdt apply ${fdtoverlay_addr_r} || setenv overlay_error "true"
+    elif load ${devtype} ${devnum}:${distro_bootpart} ${fdtoverlay_addr_r} /dtbs/overlays/${overlay_file}.dtbo; then
+        echo "Applying device tree overlay: /dtbs/overlays/${overlay_file}.dtbo"
+        fdt apply ${fdtoverlay_addr_r} || setenv overlay_error "true"
+    elif load ${devtype} ${devnum}:${distro_bootpart} ${fdtoverlay_addr_r} /dtbs/overlays/rk3588-${overlay_file}.dtbo; then
+        echo "Applying device tree overlay: /dtbs/overlays/rk3588-${overlay_file}.dtbo"
+        fdt apply ${fdtoverlay_addr_r} || setenv overlay_error "true"
+    fi
+done
+if test "${overlay_error}" = "true"; then
+    echo "Error applying device tree overlays, restoring original device tree"
+    load ${devtype} ${devnum}:${distro_bootpart} ${fdt_addr_r} /dtbs/${fdtfile}
+fi
+
+load ${devtype} ${devnum}:${distro_bootpart} ${kernel_addr_r} /vmlinuz
+load ${devtype} ${devnum}:${distro_bootpart} ${ramdisk_addr_r} /initrd.img
+
+booti ${kernel_addr_r} ${ramdisk_addr_r}:${filesize} ${fdt_addr_r}
+EOF
+
+cp -r ${TOPDIR}/../tools/ ${TOPDIR}/
+${TOPDIR}/tools/rkbin/tools/mkimage -A arm64 -O linux -T script -C none -n "Boot Script" -d ${mount_point}/system-boot/boot.cmd ${mount_point}/system-boot/boot.scr
 
 # Write bootloader to disk image
 if [ -f "${mount_point}/writable/usr/lib/u-boot/u-boot-rockchip.bin" ]; then
