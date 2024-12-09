@@ -283,6 +283,21 @@ chroot ${mount_point}/writable/ u-boot-update
 sync --file-system
 sync
 
+mkdir -p rkimage/Image
+
+pushd rkimage
+cp -rf ../../tools/* .
+cp -rf ${mount_point}/writable/usr/lib/u-boot/idbloader.img Image/
+cp -rf ${mount_point}/writable/usr/lib/u-boot/uboot.img Image/
+cp -rf ${mount_point}/writable/usr/lib/u-boot/u-boot.itb Image/
+cp -a MiniLoaderAll.bin Image/
+cp -a misc.img Image/
+cp -a parameter.txt Image/
+cp -a package-file Image/
+cp -a RKTools/linux/Linux_Pack_Firmware/rockdev/afptool .
+cp -a RKTools/linux/Linux_Pack_Firmware/rockdev/rkImageMaker .
+popd
+
 # Umount partitions
 umount "${disk}${partition_char}1"
 umount "${disk}${partition_char}2" 2> /dev/null || true
@@ -293,7 +308,31 @@ losetup -d "${loop}"
 # Exit trap is no longer needed
 trap '' EXIT
 
-echo -e "\nCompressing $(basename "${img}.xz")\n"
-xz -6 --force --keep --quiet --threads=0 "${img}"
-rm -f "${img}"
-cd ../images && sha256sum "$(basename "${img}.xz")" > "$(basename "${img}.xz.sha256")"
+tag=""
+if [ -z "${img##*desktop*}" ]; then
+    tag="desktop"
+elif [ -z "${img##*server*}" ]; then
+    tag="server"
+fi
+
+# build RK format Image
+rkimg="../images/image-release-rockchip-format-${BOARD}-ubuntu-${tag}-$(date "+%y%m%d").img"
+
+pushd rkimage
+dd if=../${img} of=Image/boot.img skip=32768 bs=512 count=1048576 conv=notrunc
+dd if=../${img} of=Image/rootfs.img skip=1081344 conv=notrunc
+RKTools/linux/Linux_Pack_Firmware/rockdev/afptool -pack . update.img ./package-file
+RKTools/linux/Linux_Pack_Firmware/rockdev/rkImageMaker -RK3588 Image/MiniLoaderAll.bin ./update.img ../${rkimg} -os_type:androidos
+rm -rf Image/update.img
+xz -3 --force --keep --quiet --threads=0 "../${rkimg}"
+rm -f "../${rkimg}"
+popd
+rm -rf rkimage
+
+# Compressing RAW format Image
+rawimg="../images/image-release-raw-format-${BOARD}-ubuntu-${tag}-$(date "+%y%m%d").img"
+mv "${img}" "${rawimg}"
+echo -e "\nCompressing $(basename "${rawimg}.xz")\n"
+xz -6 --force --keep --quiet --threads=0 "${rawimg}"
+rm -f "${rawimg}"
+cd ../images && sha256sum "$(basename "${rawimg}.xz")" > "$(basename "${rawimg}.xz.sha256")"
