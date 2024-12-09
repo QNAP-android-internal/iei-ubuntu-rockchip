@@ -262,6 +262,8 @@ EOF
 
 # Disable sudo with password
 sed -i "s/sudo\tALL=(ALL:ALL) ALL/sudo\tALL=(ALL:ALL) NOPASSWD:ALL/" ${mount_point}/writable/etc/sudoers
+# Copy the device trees, kernel, and initrd to the boot partition
+mv ${mount_point}/writable/boot/firmware/* ${mount_point}/system-boot/
 
 # Write bootloader to disk image
 if [ -f "${mount_point}/writable/usr/lib/u-boot/u-boot-rockchip.bin" ]; then
