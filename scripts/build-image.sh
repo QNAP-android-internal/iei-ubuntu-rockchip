@@ -270,7 +270,7 @@ if [ -f "${mount_point}/writable/usr/lib/u-boot/u-boot-rockchip.bin" ]; then
     dd if="${mount_point}/writable/usr/lib/u-boot/u-boot-rockchip.bin" of="${loop}" seek=1 bs=32k conv=fsync
 else
     dd if="${mount_point}/writable/usr/lib/u-boot/idbloader.img" of="${loop}" seek=64 conv=notrunc
-    dd if="${mount_point}/writable/usr/lib/u-boot/u-boot.itb" of="${loop}" seek=16384 conv=notrunc
+    dd if="${mount_point}/writable/usr/lib/u-boot/uboot.img" of="${loop}" seek=16384 conv=notrunc
 fi
 
 # Run build image hook to handle board specific changes
