@@ -1,0 +1,9 @@
+Source: kernel-iei-b675-noble
+Section: admin
+Priority: optional
+Maintainer: LC Wang <lcwang@ieiworld.com>
+
+Package: kernel-iei-b675-noble
+Architecture: arm64
+Priority: optional
+Description: A kernel for the iEi B675
