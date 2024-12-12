@@ -56,4 +56,6 @@ make ARCH=arm64 \
 fi
 
 # Compile the kernel into a deb package
+dpkg-source --before-build .
 fakeroot debian/rules clean binary-headers binary-rockchip do_mainline_build=true
+dpkg-source --after-build .
