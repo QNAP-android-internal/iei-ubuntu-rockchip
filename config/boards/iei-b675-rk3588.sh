@@ -12,8 +12,7 @@ export COMPATIBLE_FLAVORS=("server" "desktop")
 function config_image_hook__iei-b675-rk3588() {
     local rootfs="$1"
     local suite="$3"
-
-    if [ "${suite}" == "jammy" ] || [ "${suite}" == "noble" ]; then
+    if [ "${suite}" == "jammy" ] || [ "${suite}" == "noble" ] || [ "${suite}" == "iei-b675-noble" ]; then
         # Install panfork
         chroot "${rootfs}" add-apt-repository -y ppa:jjriek/panfork-mesa
         chroot "${rootfs}" apt-get update
