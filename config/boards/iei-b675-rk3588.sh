@@ -31,6 +31,9 @@ function config_image_hook__iei-b675-rk3588() {
         chroot "${rootfs}" sed -i 's/<default>true<\/default>/<default>false<\/default>/g' /usr/share/glib-2.0/schemas/org.gnome.settings-daemon.plugins.power.gschema.xml
         chroot "${rootfs}" glib-compile-schemas /usr/share/glib-2.0/schemas/
 		chroot "${rootfs}" dconf update
+
+        # Install gstreamer plugins for H.265 video
+        chroot "${rootfs}" apt-get -y install gstreamer1.0-plugins-bad gstreamer1.0-libav
     fi
 
     return 0
