@@ -24,6 +24,13 @@ function config_image_hook__iei-b675-rk3588() {
 
         # Install the rockchip camera engine
         chroot "${rootfs}" apt-get -y install camera-engine-rkaiq-rk3588
+
+        # Disable the system turning off the screen when it is inactive
+        chroot "${rootfs}" sed -i 's/<default>300<\/default>/<default>0<\/default>/g' /usr/share/glib-2.0/schemas/org.gnome.desktop.session.gschema.xml
+        # Disable the system screen dimming after idle timeout
+        chroot "${rootfs}" sed -i 's/<default>true<\/default>/<default>false<\/default>/g' /usr/share/glib-2.0/schemas/org.gnome.settings-daemon.plugins.power.gschema.xml
+        chroot "${rootfs}" glib-compile-schemas /usr/share/glib-2.0/schemas/
+		chroot "${rootfs}" dconf update
     fi
 
     return 0
