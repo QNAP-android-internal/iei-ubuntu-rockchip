@@ -1,0 +1,27 @@
+From bf12d76bbe60a029696b377687ed8baf2162ee21 Mon Sep 17 00:00:00 2001
+From: lcwang <lcwang@ieiworld.com>
+Date: Thu, 29 May 2025 10:50:28 +0800
+Subject: [PATCH 1/1] Revert "MALI: bifrost: Enlarge csffw_gpu_metrics_buf to
+ 32 pages"
+
+This reverts commit ca2d55007ef3686c5b6495ce9e059d402196c484.
+---
+ drivers/gpu/arm/bifrost/csf/mali_kbase_csf_trace_buffer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/arm/bifrost/csf/mali_kbase_csf_trace_buffer.c b/drivers/gpu/arm/bifrost/csf/mali_kbase_csf_trace_buffer.c
+index ce67819e8c41..8ed7c91553a6 100644
+--- a/drivers/gpu/arm/bifrost/csf/mali_kbase_csf_trace_buffer.c
++++ b/drivers/gpu/arm/bifrost/csf/mali_kbase_csf_trace_buffer.c
+@@ -123,7 +123,7 @@ static const struct firmware_trace_buffer_data trace_buffer_data[] = {
+ 	{ KBASE_CSFFW_BENCHMARK_BUF_NAME, { 0 }, 2 },
+ 	{ KBASE_CSFFW_TIMELINE_BUF_NAME, { 0 }, KBASE_CSF_TL_BUFFER_NR_PAGES },
+ #if IS_ENABLED(CONFIG_MALI_TRACE_POWER_GPU_WORK_PERIOD)
+-	{ KBASE_CSFFW_GPU_METRICS_BUF_NAME, { 0 }, 32 },
++	{ KBASE_CSFFW_GPU_METRICS_BUF_NAME, { 0 }, 8 },
+ #endif /* CONFIG_MALI_TRACE_POWER_GPU_WORK_PERIOD */
+ };
+ 
+-- 
+2.34.1
+
