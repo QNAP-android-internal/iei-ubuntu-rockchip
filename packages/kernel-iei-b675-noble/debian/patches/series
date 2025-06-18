@@ -1,2 +1,3 @@
 0001-Revert-MALI-bifrost-Enlarge-csffw_gpu_metrics_buf-to.patch
 0002-Revert-MALI-rockchip-upgrade-bifrost-DDK-to-g21p0-01.patch
+0003-arm64-dts-rk3588-b675-disable-mipi-dsi-and-lvds-disp.patch
