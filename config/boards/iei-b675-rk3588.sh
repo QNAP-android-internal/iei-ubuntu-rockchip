@@ -34,6 +34,9 @@ function config_image_hook__iei-b675-rk3588() {
 
         # Install gstreamer plugins for H.265 video
         chroot "${rootfs}" apt-get -y install gstreamer1.0-plugins-bad gstreamer1.0-libav
+
+	# Install watchdog
+	chroot "${rootfs}" apt-get -y install watchdog
     fi
 
     return 0
