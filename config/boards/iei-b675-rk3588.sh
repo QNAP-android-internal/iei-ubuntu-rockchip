@@ -11,6 +11,7 @@ export COMPATIBLE_FLAVORS=("server" "desktop")
 
 function config_image_hook__iei-b675-rk3588() {
     local rootfs="$1"
+    local overlay="$2"
     local suite="$3"
     if [ "${suite}" == "jammy" ] || [ "${suite}" == "noble" ] || [ "${suite}" == "iei-b675-noble" ]; then
         # Install panfork
@@ -37,6 +38,9 @@ function config_image_hook__iei-b675-rk3588() {
 
 	# Install watchdog
 	chroot "${rootfs}" apt-get -y install watchdog
+
+	# Use tweaked asound config
+	cp "${overlay}/var/lib/alsa/asound.state" "${rootfs}/var/lib/alsa/asound.state"
     fi
 
     return 0
