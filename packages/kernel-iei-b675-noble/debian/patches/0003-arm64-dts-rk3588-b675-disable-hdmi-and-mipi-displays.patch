@@ -1,0 +1,43 @@
+From 9877f0f544d206c92841b2538134f9daabe00ef5 Mon Sep 17 00:00:00 2001
+From: lcwang <lcwang@ieiworld.com>
+Date: Tue, 27 Jan 2026 18:18:53 +0800
+Subject: [PATCH 1/1] arm64: dts: rk3588-b675: disable hdmi and mipi displays
+
+---
+ arch/arm64/boot/dts/rockchip/rk3588-b675.dts | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-b675.dts b/arch/arm64/boot/dts/rockchip/rk3588-b675.dts
+index 7a4bb47d0141..b4aea7b09ef4 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-b675.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588-b675.dts
+@@ -342,7 +342,7 @@ &combphy2_psu {
+  * when dsi0 is enabled
+  */
+ &dsi0 {
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &dsi0_in_vp2 {
+@@ -769,7 +769,7 @@ &gmac1_rgmii_bus
+ 
+ &hdmi0 {
+ 	enable-gpios = <&gpio4 RK_PB1 GPIO_ACTIVE_HIGH>;
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &hdmi0_in_vp0 {
+@@ -782,7 +782,7 @@ &hdmi0_sound {
+ 
+ &hdmi1 {
+ 	enable-gpios = <&gpio4 RK_PB2 GPIO_ACTIVE_HIGH>;
+-	status = "okay";
++	status = "disabled";
+ };
+ 
+ &hdmi1_in_vp1 {
+-- 
+2.34.1
+
