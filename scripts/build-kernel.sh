@@ -41,16 +41,6 @@ export CROSS_COMPILE=${TOPDIR}/tools/prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.
 export CC=${TOPDIR}/tools/prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu-gcc
 export LANG=C
 
-make ARCH=arm64 \
-	CROSS_COMPILE=${TOPDIR}/tools/prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu- \
-	iei_ubuntu_defconfig
-
-mv .config ../.config
-
-make ARCH=arm64 \
-    CROSS_COMPILE=${TOPDIR}/tools/prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu- \
-    mrproper
-
     SERIES_FILE="../../packages/kernel-${SUITE}/debian/patches/series"
 
     case "${PANEL}" in
@@ -73,6 +63,21 @@ make ARCH=arm64 \
             echo "WARNING: Unknown PANEL=${PANEL}, keep original series"
             ;;
     esac
+
+    export QUILT_PATCHES=../../packages/kernel-${SUITE}/debian/patches/
+
+    quilt push -a
+
+    make ARCH=arm64 \
+           CROSS_COMPILE=${TOPDIR}/tools/prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu- \
+        iei_ubuntu_defconfig
+    mv .config ../.config
+
+    quilt pop -a
+
+    make ARCH=arm64 \
+        CROSS_COMPILE=${TOPDIR}/tools/prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu- \
+        mrproper
 
     cp -r ../../packages/kernel-${SUITE}/debian .
     cp -r ../../packages/kernel-${SUITE}/debian.rockchip .
