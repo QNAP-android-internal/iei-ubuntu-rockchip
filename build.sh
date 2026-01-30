@@ -22,6 +22,7 @@ Optional arguments:
   -ro, --rootfs-only     only build rootfs
   -l,  --launchpad       use kernel and uboot from launchpad repo
   -v,  --verbose         increase the verbosity of the bash script
+  -p,  --panel=PANEL     target display panel, default is hdmi
 HEREDOC
 }
 
@@ -85,6 +86,14 @@ while [ "$#" -gt 0 ]; do
         -v|--verbose)
             set -x
             shift
+            ;;
+        -p=*|--panel=*)
+            export PANEL="${1#*=}"
+            shift
+            ;;
+        -p|--panel)
+            export PANEL="${2}"
+            shift 2
             ;;
         -*)
             echo "Error: unknown argument \"${1}\""
