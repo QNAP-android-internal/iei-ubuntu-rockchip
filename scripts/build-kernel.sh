@@ -51,6 +51,29 @@ make ARCH=arm64 \
     CROSS_COMPILE=${TOPDIR}/tools/prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu- \
     mrproper
 
+    SERIES_FILE="../../packages/kernel-${SUITE}/debian/patches/series"
+
+    case "${PANEL}" in
+        lvds)
+            echo "PANEL=lvds -> disable HDMI + MIPI"
+            sed -i \
+                's|^0003-.*|0003-arm64-dts-rk3588-b675-disable-hdmi-and-mipi-displays.patch|' \
+                "${SERIES_FILE}"
+           ;;
+        mipi)
+            echo "PANEL=mipi -> disable HDMI + LVDS"
+            sed -i \
+                's|^0003-.*|0003-arm64-dts-rk3588-b675-disable-hdmi-and-lvds-displays.patch|' \
+                "${SERIES_FILE}"
+            ;;
+        hdmi|"")
+            echo "PANEL=hdmi (default) -> keep original series"
+            ;;
+        *)
+            echo "WARNING: Unknown PANEL=${PANEL}, keep original series"
+            ;;
+    esac
+
     cp -r ../../packages/kernel-${SUITE}/debian .
     cp -r ../../packages/kernel-${SUITE}/debian.rockchip .
 fi
