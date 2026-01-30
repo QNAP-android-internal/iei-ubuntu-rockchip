@@ -41,6 +41,10 @@ function config_image_hook__iei-b675-rk3588() {
 
 	# Use tweaked asound config
 	cp "${overlay}/var/lib/alsa/asound.state" "${rootfs}/var/lib/alsa/asound.state"
+
+	# Install legacy networking utilities (ifconfig, route, netstat)
+	chroot "${rootfs}" apt-get -y install net-tools
+
     fi
 
     return 0
