@@ -45,6 +45,11 @@ function config_image_hook__iei-b675-rk3588() {
 	# Install legacy networking utilities (ifconfig, route, netstat)
 	chroot "${rootfs}" apt-get -y install net-tools
 
+	# copy rknn demo relate files
+	cp "${overlay}/usr/bin/rknn_yolov5_demo" "${rootfs}/usr/bin/rknn_yolov5_demo"
+	cp "${overlay}/usr/lib/aarch64-linux-gnu/librknnrt.so" "${rootfs}/usr/lib/aarch64-linux-gnu/librknnrt.so"
+	cp "${overlay}/usr/lib/aarch64-linux-gnu/librga.so" "${rootfs}/usr/lib/aarch64-linux-gnu/librga.so"
+
     fi
 
     return 0
