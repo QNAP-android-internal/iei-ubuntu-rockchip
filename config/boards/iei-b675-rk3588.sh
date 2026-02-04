@@ -56,6 +56,12 @@ function config_image_hook__iei-b675-rk3588() {
 	# Force iptables legacy backend for compatibility with existing scripts
 	chroot "${rootfs}" update-alternatives --set iptables  /usr/sbin/iptables-legacy || true
 	chroot "${rootfs}" update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy || true
+
+	# Install dialog dependency for Wi-Fi hotspot configuration script
+	chroot "${rootfs}" apt-get -y install dialog
+
+	# Install Wi-Fi hotspot userspace helper script
+	cp "${overlay}/usr/bin/hotspot_script.sh" "${rootfs}/usr/bin/hotspot_script.sh"
     fi
 
     return 0
