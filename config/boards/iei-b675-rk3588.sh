@@ -62,6 +62,11 @@ function config_image_hook__iei-b675-rk3588() {
 
 	# Install Wi-Fi hotspot userspace helper script
 	cp "${overlay}/usr/bin/hotspot_script.sh" "${rootfs}/usr/bin/hotspot_script.sh"
+
+	# Install resize-filesystem helper script and systemd service
+	mkdir -p "${rootfs}/usr/lib/scripts"
+	cp "${overlay}/usr/lib/scripts/resize-filesystem.sh" "${rootfs}/usr/lib/scripts/resize-filesystem.sh"
+	cp "${overlay}/usr/lib/systemd/system/resize-filesystem.service" "${rootfs}/usr/lib/systemd/system/resize-filesystem.service"
     fi
 
     return 0
