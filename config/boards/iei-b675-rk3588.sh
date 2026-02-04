@@ -67,6 +67,7 @@ function config_image_hook__iei-b675-rk3588() {
 	mkdir -p "${rootfs}/usr/lib/scripts"
 	cp "${overlay}/usr/lib/scripts/resize-filesystem.sh" "${rootfs}/usr/lib/scripts/resize-filesystem.sh"
 	cp "${overlay}/usr/lib/systemd/system/resize-filesystem.service" "${rootfs}/usr/lib/systemd/system/resize-filesystem.service"
+	chroot "${rootfs}" /bin/bash -c "systemctl enable resize-filesystem"
     fi
 
     return 0
