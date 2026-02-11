@@ -50,6 +50,10 @@ function config_image_hook__iei-b675-rk3588() {
 	cp "${overlay}/usr/lib/aarch64-linux-gnu/librknnrt.so" "${rootfs}/usr/lib/aarch64-linux-gnu/librknnrt.so"
 	cp "${overlay}/usr/lib/aarch64-linux-gnu/librga.so" "${rootfs}/usr/lib/aarch64-linux-gnu/librga.so"
 
+	# copy rkllm demo relate files
+	cp "${overlay}/usr/bin/llm_demo" "${rootfs}/usr/bin/llm_demo"
+	cp "${overlay}/usr/lib/aarch64-linux-gnu/librkllmrt.so" "${rootfs}/usr/lib/aarch64-linux-gnu/librkllmrt.so"
+
 	# Install Bluetooth userspace tools (BlueZ, Blueman)
 	chroot "${rootfs}" apt-get -y install blueman bluez bluez-tools
 
