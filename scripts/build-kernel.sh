@@ -23,11 +23,11 @@ source "../config/suites/${SUITE}.sh"
 
 # Clone the kernel repo
 if ! git -C linux-rockchip pull; then
-    git clone --progress -b "${KERNEL_BRANCH}" "${KERNEL_REPO}" linux-rockchip --depth=2
+    git clone --progress -b "${KERNEL_BRANCH}" "${KERNEL_REPO}" linux-rockchip
 fi
 
 cd linux-rockchip
-git checkout "${KERNEL_BRANCH}"
+git checkout "${KERNEL_COMMIT}"
 
 # shellcheck disable=SC2046
 export $(dpkg-architecture -aarm64)
