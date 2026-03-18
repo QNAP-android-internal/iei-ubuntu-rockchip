@@ -56,6 +56,7 @@ function config_image_hook__iei-b675-rk3588() {
 
 	# Install Bluetooth userspace tools (BlueZ, Blueman)
 	chroot "${rootfs}" apt-get -y install blueman bluez bluez-tools
+	cp -rf "${overlay}/usr/bin/brcm_patchram_plus" "${rootfs}/usr/bin/brcm_patchram_plus"
 
 	# Force iptables legacy backend for compatibility with existing scripts
 	chroot "${rootfs}" update-alternatives --set iptables  /usr/sbin/iptables-legacy || true
