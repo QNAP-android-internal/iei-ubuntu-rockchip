@@ -1,0 +1,12 @@
+[Unit]
+Description=Bluetooth Init
+After=multi-user.target dev-ttyS9.device
+Wants=dev-ttyS9.device
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/scripts/bluetooth-init.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
