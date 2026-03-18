@@ -74,6 +74,12 @@ function config_image_hook__iei-b675-rk3588() {
 	cp "${overlay}/usr/lib/systemd/system/resize-filesystem.service" "${rootfs}/usr/lib/systemd/system/resize-filesystem.service"
 	chroot "${rootfs}" /bin/bash -c "chmod +x /usr/lib/scripts/resize-filesystem.sh"
 	chroot "${rootfs}" /bin/bash -c "systemctl enable resize-filesystem"
+
+	# Install bluetooth-init helper script and systemd service
+	cp -rf "${overlay}/usr/lib/scripts/bluetooth-init.sh" "${rootfs}/usr/lib/scripts/bluetooth-init.sh"
+	cp -rf "${overlay}/usr/lib/systemd/system/bluetooth-init.service" "${rootfs}/usr/lib/systemd/system/bluetooth-init.service"
+	chroot "${rootfs}" /bin/bash -c "chmod +x /usr/lib/scripts/bluetooth-init.sh"
+	chroot "${rootfs}" /bin/bash -c "systemctl enable bluetooth-init"
     fi
 
     return 0
